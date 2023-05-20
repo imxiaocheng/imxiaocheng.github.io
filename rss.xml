@@ -8,14 +8,15 @@
         <pubDate>Sat, 20 May 2023 19:30:39 +0800</pubDate>
         <lastBuildDate>Sat, 20 May 2023 19:30:39 +0800</lastBuildDate>
         <category>people</category>
-        <category>注释</category>
+        <category>笔记</category>
         <item>
             <guid isPermalink="true">https://imxiaocheng.github.io/2023/05/20/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</guid>
             <title>博客搭建</title>
             <link>https://imxiaocheng.github.io/2023/05/20/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
-            <category>注释</category>
+            <category>笔记</category>
             <pubDate>Sat, 20 May 2023 19:30:39 +0800</pubDate>
-            <description><![CDATA[ &lt;h1 id=&#34;这里什么也没有&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#这里什么也没有&#34;&gt;#&lt;/a&gt; 这里什么也没有&lt;/h1&gt;
+            <description><![CDATA[ &lt;h1 id=&#34;hexo-new-新文章&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#hexo-new-新文章&#34;&gt;#&lt;/a&gt; hexo new “新文章”&lt;/h1&gt;
+&lt;h1 id=&#34;hexo-clean-hexo-g-hexo-d&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#hexo-clean-hexo-g-hexo-d&#34;&gt;#&lt;/a&gt; hexo clean &amp;amp;&amp;amp; hexo g &amp;amp;&amp;amp; hexo d&lt;/h1&gt;
  ]]></description>
         </item>
         <item>
