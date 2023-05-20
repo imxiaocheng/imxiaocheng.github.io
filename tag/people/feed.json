@@ -1,0 +1,18 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "小城博客 • All posts by \"people\" tag",
+    "description": "这是我构建的第一个博客",
+    "home_page_url": "https://imxiaocheng.github.io",
+    "items": [
+        {
+            "id": "https://imxiaocheng.github.io/2023/05/20/pagluyaowen/",
+            "url": "https://imxiaocheng.github.io/2023/05/20/pagluyaowen/",
+            "title": "luyaowen",
+            "date_published": "2023-05-20T11:05:02.000Z",
+            "content_html": "<h1 id=\"这是耀文兄的个人辉煌生涯\"><a class=\"markdownIt-Anchor\" href=\"#这是耀文兄的个人辉煌生涯\">#</a> 这是耀文兄的个人辉煌生涯</h1>\n<p>6666</p>\n",
+            "tags": [
+                "people"
+            ]
+        }
+    ]
+}

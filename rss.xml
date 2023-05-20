@@ -1,0 +1,1183 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>小城博客</title>
+        <link>https://imxiaocheng.github.io</link>
+        <description>这是我构建的第一个博客</description>
+        <language>zh-CN</language>
+        <pubDate>Sat, 20 May 2023 19:30:39 +0800</pubDate>
+        <lastBuildDate>Sat, 20 May 2023 19:30:39 +0800</lastBuildDate>
+        <category>people</category>
+        <category>注释</category>
+        <item>
+            <guid isPermalink="true">https://imxiaocheng.github.io/2023/05/20/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</guid>
+            <title>博客搭建</title>
+            <link>https://imxiaocheng.github.io/2023/05/20/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
+            <category>注释</category>
+            <pubDate>Sat, 20 May 2023 19:30:39 +0800</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;这里什么也没有&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#这里什么也没有&#34;&gt;#&lt;/a&gt; 这里什么也没有&lt;/h1&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://imxiaocheng.github.io/2023/05/20/pagluyaowen/</guid>
+            <title>luyaowen</title>
+            <link>https://imxiaocheng.github.io/2023/05/20/pagluyaowen/</link>
+            <category>people</category>
+            <pubDate>Sat, 20 May 2023 19:05:02 +0800</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;这是耀文兄的个人辉煌生涯&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#这是耀文兄的个人辉煌生涯&#34;&gt;#&lt;/a&gt; 这是耀文兄的个人辉煌生涯&lt;/h1&gt;
+&lt;p&gt;6666&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://imxiaocheng.github.io/2023/05/14/mysql%E9%AB%98%E7%BA%A7/</guid>
+            <title>mysql高级</title>
+            <link>https://imxiaocheng.github.io/2023/05/14/mysql%E9%AB%98%E7%BA%A7/</link>
+            <pubDate>Sun, 14 May 2023 21:58:13 +0800</pubDate>
+            <description><![CDATA[ &lt;h2 id=&#34;mysql高级&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#mysql高级&#34;&gt;#&lt;/a&gt; mysql 高级&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;今日目标&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;掌握约束的使用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;掌握表关系及建表原则&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;重点掌握多表查询操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;掌握事务操作&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;1约束&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#1约束&#34;&gt;#&lt;/a&gt; 1，约束&lt;/h2&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724104749122.png&#34; alt=&#34;image-20210724104749122&#34; style=&#34;zoom:70%;&#34; /&gt;
+&lt;p&gt;上面表中可以看到表中数据存在一些问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;id 列一般是用标示数据的唯一性的，而上述表中的 id 为 1 的有三条数据，并且  &lt;code&gt;马花疼&lt;/code&gt;  没有 id 进行标示&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;柳白&lt;/code&gt;  这条数据的 age 列的数据是 3000，而人也不可能活到 3000 岁&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;马运&lt;/code&gt;   这条数据的 math 数学成绩是 - 5，而数学学得再不好也不可能出现负分&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;柳青&lt;/code&gt;  这条数据的 english 列（英文成绩）值为 null，而成绩即使没考也得是 0 分&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;针对上述数据问题，我们就可以从数据库层面在添加数据的时候进行限制，这个就是约束。&lt;/p&gt;
+&lt;h3 id=&#34;11-概念&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#11-概念&#34;&gt;#&lt;/a&gt; 1.1  概念&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;约束是作用于表中列上的规则，用于限制加入表的数据&lt;/p&gt;
+&lt;p&gt;例如：我们可以给 id 列加约束，让其值不能重复，不能为 null 值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;约束的存在保证了数据库中数据的正确性、有效性和完整性&lt;/p&gt;
+&lt;p&gt;添加约束可以在添加数据的时候就限制不正确的数据，年龄是 3000，数学成绩是 - 5 分这样无效的数据，继而保障数据的完整性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;12-分类&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#12-分类&#34;&gt;#&lt;/a&gt; 1.2  分类&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;非空约束： 关键字是 NOT NULL&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;保证列中所有的数据不能有 null 值。&lt;/p&gt;
+&lt;p&gt;例如：id 列在添加  &lt;code&gt;马花疼&lt;/code&gt;  这条数据时就不能添加成功。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;唯一约束：关键字是  UNIQUE&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;保证列中所有数据各不相同。&lt;/p&gt;
+&lt;p&gt;例如：id 列中三条数据的值都是 1，这样的数据在添加时是绝对不允许的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;主键约束： 关键字是  PRIMARY KEY&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;主键是一行数据的唯一标识，要求非空且唯一。一般我们都会给没张表添加一个主键列用来唯一标识数据。&lt;/p&gt;
+&lt;p&gt;例如：上图表中 id 就可以作为主键，来标识每条数据。那么这样就要求数据中 id 的值不能重复，不能为 null 值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;检查约束： 关键字是  CHECK&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;保证列中的值满足某一条件。&lt;/p&gt;
+&lt;p&gt;例如：我们可以给 age 列添加一个范围，最低年龄可以设置为 1，最大年龄就可以设置为 300，这样的数据才更合理些。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：MySQL 不支持检查约束。&lt;/p&gt;
+&lt;p&gt;这样是不是就没办法保证年龄在指定的范围内了？从数据库层面不能保证，以后可以在 java 代码中进行限制，一样也可以实现要求。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;默认约束： 关键字是   DEFAULT&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;保存数据时，未指定值则采用默认值。&lt;/p&gt;
+&lt;p&gt;例如：我们在给 english 列添加该约束，指定默认值是 0，这样在添加数据时没有指定具体值时就会采用默认给定的 0。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;外键约束： 关键字是  FOREIGN KEY&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。&lt;/p&gt;
+&lt;p&gt;外键约束现在可能还不太好理解，后面我们会重点进行讲解。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;13-非空约束&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#13-非空约束&#34;&gt;#&lt;/a&gt; 1.3  非空约束&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;概念&lt;/p&gt;
+&lt;p&gt;非空约束用于保证列中所有数据不能有 NULL 值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;语法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;添加约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 创建表时添加非空约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+   列名 数据类型 &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+   …
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; 
+&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 建完表后添加非空约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;MODIFY&lt;/span&gt; 字段名 数据类型 &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;删除约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;MODIFY&lt;/span&gt; 字段名 数据类型&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;14-唯一约束&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#14-唯一约束&#34;&gt;#&lt;/a&gt; 1.4  唯一约束&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;概念&lt;/p&gt;
+&lt;p&gt;唯一约束用于保证列中所有数据各不相同&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;语法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;添加约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 创建表时添加唯一约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+   列名 数据类型 &lt;span class=&#34;token keyword&#34;&gt;UNIQUE&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+   &lt;span class=&#34;token comment&#34;&gt;-- AUTO_INCREMENT: 当不指定值时自动增长&lt;/span&gt;
+   …
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; 
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+   列名 数据类型&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+   …
+   &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;约束名称&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;UNIQUE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;列名&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; &lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 建完表后添加唯一约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;MODIFY&lt;/span&gt; 字段名 数据类型 &lt;span class=&#34;token keyword&#34;&gt;UNIQUE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;删除约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INDEX&lt;/span&gt; 字段名&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;15-主键约束&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#15-主键约束&#34;&gt;#&lt;/a&gt; 1.5  主键约束&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;概念&lt;/p&gt;
+&lt;p&gt;主键是一行数据的唯一标识，要求非空且唯一&lt;/p&gt;
+&lt;p&gt;一张表只能有一个主键&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;语法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;添加约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 创建表时添加主键约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+   列名 数据类型 &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+   …
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; 
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+   列名 数据类型&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+   &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;约束名称&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;列名&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; 
+&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 建完表后添加主键约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;ADD&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;字段名&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;删除约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;16-默认约束&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#16-默认约束&#34;&gt;#&lt;/a&gt; 1.6  默认约束&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;概念&lt;/p&gt;
+&lt;p&gt;保存数据时，未指定值则采用默认值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;语法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;添加约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 创建表时添加默认约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+   列名 数据类型 &lt;span class=&#34;token keyword&#34;&gt;DEFAULT&lt;/span&gt; 默认值&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+   …
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; &lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 建完表后添加默认约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; 列名 &lt;span class=&#34;token keyword&#34;&gt;SET&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;DEFAULT&lt;/span&gt; 默认值&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;删除约束&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; 列名 &lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;DEFAULT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;17-约束练习&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#17-约束练习&#34;&gt;#&lt;/a&gt; 1.7  约束练习&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;根据需求，为表添加合适的约束&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 员工表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 员工id，主键且自增长&lt;/span&gt;
+    ename &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 员工姓名，非空且唯一&lt;/span&gt;
+    joindate &lt;span class=&#34;token keyword&#34;&gt;DATE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 入职日期，非空&lt;/span&gt;
+    salary &lt;span class=&#34;token keyword&#34;&gt;DOUBLE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 工资，非空&lt;/span&gt;
+    bonus &lt;span class=&#34;token keyword&#34;&gt;DOUBLE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 奖金，如果没有将近默认为0&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面一定给出了具体的要求，我们可以根据要求创建这张表，并为每一列添加对应的约束。建表语句如下：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 员工表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+  id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 员工id，主键且自增长&lt;/span&gt;
+  ename &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;UNIQUE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 员工姓名，非空并且唯一&lt;/span&gt;
+  joindate &lt;span class=&#34;token keyword&#34;&gt;DATE&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 入职日期，非空&lt;/span&gt;
+  salary &lt;span class=&#34;token keyword&#34;&gt;DOUBLE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 工资，非空&lt;/span&gt;
+  bonus &lt;span class=&#34;token keyword&#34;&gt;DOUBLE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;DEFAULT&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 奖金，如果没有奖金默认为0&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过上面语句可以创建带有约束的  &lt;code&gt;emp&lt;/code&gt;  表，约束能不能发挥作用呢。接下来我们一一进行验证，先添加一条没有问题的数据&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;张三&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;验证主键约束，非空且唯一&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;张三&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724114548170.png&#34; alt=&#34;image-20210724114548170&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;从上面的结果可以看到，字段  &lt;code&gt;id&lt;/code&gt;  不能为 null。那我们重新添加一条数据，如下：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;张三&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724114805350.png&#34; alt=&#34;image-20210724114805350&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;从上面结果可以看到，1 这个值重复了。所以主键约束是用来限制数据非空且唯一的。那我们再添加一条符合要求的数据&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;李四&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724115024106.png&#34; alt=&#34;image-20210724115024106&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;验证非空约束&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724115149415.png&#34; alt=&#34;image-20210724115149415&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;从上面结果可以看到， &lt;code&gt;ename&lt;/code&gt;  字段的非空约束生效了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;验证唯一约束&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;李四&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724115336916.png&#34; alt=&#34;image-20210724115336916&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;从上面结果可以看到， &lt;code&gt;ename&lt;/code&gt;  字段的唯一约束生效了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;验证默认约束&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;王五&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行完上面语句后查询表中数据，如下图可以看到王五这条数据的 bonus 列就有了默认值 0。&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724115547951.png&#34; alt=&#34;image-20210724115547951&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;&lt;mark&gt;注意：默认约束只有在不给值时才会采用默认值。如果给了 null，那值就是 null 值。&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;如下：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;赵六&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行完上面语句后查询表中数据，如下图可以看到赵六这条数据的 bonus 列的值是 null。&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724115826516.png&#34; alt=&#34;image-20210724115826516&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;验证自动增长： auto_increment  当列是数字类型 并且唯一约束&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;重新创建  &lt;code&gt;emp&lt;/code&gt;  表，并给 id 列添加自动增长&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 员工表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+  id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 员工id，主键且自增长&lt;/span&gt;
+  ename &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;UNIQUE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 员工姓名，非空并且唯一&lt;/span&gt;
+  joindate &lt;span class=&#34;token keyword&#34;&gt;DATE&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 入职日期，非空&lt;/span&gt;
+  salary &lt;span class=&#34;token keyword&#34;&gt;DOUBLE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;NOT&lt;/span&gt; &lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 工资，非空&lt;/span&gt;
+  bonus &lt;span class=&#34;token keyword&#34;&gt;DOUBLE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;DEFAULT&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 奖金，如果没有奖金默认为0&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;接下来给 emp 添加数据，分别验证不给 id 列添加值以及给 id 列添加 null 值，id 列的值会不会自动增长：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;赵六&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;赵六2&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;赵六3&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;1999-11-11&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;8800&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;18-外键约束&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#18-外键约束&#34;&gt;#&lt;/a&gt; 1.8  外键约束&lt;/h3&gt;
+&lt;h4 id=&#34;181-概述&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#181-概述&#34;&gt;#&lt;/a&gt; 1.8.1  概述&lt;/h4&gt;
+&lt;p&gt;外键用来让两个表的数据之间建立链接，保证数据的一致性和完整性。&lt;/p&gt;
+&lt;p&gt;如何理解上面的概念呢？如下图有两张表，员工表和部门表：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724120904180.png&#34; alt=&#34;image-20210724120904180&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;员工表中的 dep_id 字段是部门表的 id 字段关联，也就是说 1 号学生张三属于 1 号部门研发部的员工。现在我要删除 1 号部门，就会出现错误的数据（员工表中属于 1 号部门的数据）。而我们上面说的两张表的关系只是我们认为它们有关系，此时需要通过外键让这两张表产生数据库层面的关系，这样你要删除部门表中的 1 号部门的数据将无法删除。&lt;/p&gt;
+&lt;h4 id=&#34;182-语法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#182-语法&#34;&gt;#&lt;/a&gt; 1.8.2  语法&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;添加外键约束&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 创建表时添加外键约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+   列名 数据类型&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+   …
+   &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;外键名称&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;外键列名&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; 主表&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;主表列名&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; 
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; &lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 建完表后添加外键约束&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;ADD&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; 外键名称 &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;外键字段名称&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; 主表名称&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;主表列名称&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;删除外键约束&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;ALTER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; 表名 &lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; 外键名称&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;183-练习&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#183-练习&#34;&gt;#&lt;/a&gt; 1.8.3  练习&lt;/h4&gt;
+&lt;p&gt;根据上述语法创建员工表和部门表，并添加上外键约束：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 删除表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 部门表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dep_name &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	addr &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 员工表 &lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	name &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	age &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dep_id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+
+	&lt;span class=&#34;token comment&#34;&gt;-- 添加外键 dep_id,关联 dept 表的id主键&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; fk_emp_dept &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;dep_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;	
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;添加数据&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 添加 2 个部门&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;insert&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;into&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;dep_name&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;addr&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;研发部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;广州&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;销售部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;深圳&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 添加员工,dep_id 表示员工所在的部门&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;NAME&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; age&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; dep_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;VALUES&lt;/span&gt; 
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;张三&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;李四&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;王五&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;赵六&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;孙七&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;22&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;周八&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;18&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;此时删除  &lt;code&gt;研发部&lt;/code&gt;  这条数据，会发现无法删除。&lt;/p&gt;
+&lt;p&gt;删除外键&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;alter&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;table&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;drop&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; fk_emp_dept&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;重新添加外键&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;alter&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;table&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;add&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; fk_emp_dept &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;dep_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;2数据库设计&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#2数据库设计&#34;&gt;#&lt;/a&gt; 2，数据库设计&lt;/h2&gt;
+&lt;h3 id=&#34;21-数据库设计简介&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#21-数据库设计简介&#34;&gt;#&lt;/a&gt; 2.1  数据库设计简介&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;软件的研发步骤&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724130925801.png&#34; alt=&#34;image-20210724130925801&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据库设计概念&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数据库设计就是根据业务系统的具体需求，结合我们所选用的 DBMS，为这个业务系统构造出最优的数据存储模型。&lt;/li&gt;
+&lt;li&gt;建立数据库中的&lt;mark&gt;表结构&lt;/mark&gt;以及&lt;mark&gt;表与表之间的关联关系&lt;/mark&gt;的过程。&lt;/li&gt;
+&lt;li&gt;有哪些表？表里有哪些字段？表和表之间有什么关系？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;数据库设计的步骤&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;需求分析（数据是什么？数据具有哪些属性？数据与属性的特点是什么）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;逻辑分析（通过 ER 图对数据库进行逻辑建模，不需要考虑我们所选用的数据库管理系统）&lt;/p&gt;
+&lt;p&gt;如下图就是 ER (Entity/Relation) 图：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724131210759.png&#34; alt=&#34;image-20210724131210759&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;物理设计（根据数据库自身的特点把逻辑设计转换为物理设计）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;维护设计（1. 对新的需求进行建表；2. 表优化）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;表关系&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;一对一&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如：用户 和 用户详情&lt;/li&gt;
+&lt;li&gt;一对一关系多用于表拆分，将一个实体中经常使用的字段放一张表，不经常使用的字段放另一张表，用于提升查询性能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724133015129.png&#34; alt=&#34;image-20210724133015129&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;上图左边是用户的详细信息，而我们真正在展示用户信息时最长用的则是上图右边红框所示，所以我们会将详细信息查分成两周那个表。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;一对多&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如：部门 和 员工&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;一个部门对应多个员工，一个员工对应一个部门。如下图：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724133443094.png&#34; alt=&#34;image-20210724133443094&#34; style=&#34;zoom:90%;&#34; /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;多对多&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如：商品 和 订单&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;一个商品对应多个订单，一个订单包含多个商品。如下图：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724133704682.png&#34; alt=&#34;image-20210724133704682&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;22-表关系一对多&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#22-表关系一对多&#34;&gt;#&lt;/a&gt; 2.2  表关系 (一对多)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;一对多&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如：部门 和 员工&lt;/li&gt;
+&lt;li&gt;一个部门对应多个员工，一个员工对应一个部门。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;实现方式&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;在多的一方建立外键，指向一的一方的主键&lt;/mark&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;案例&lt;/p&gt;
+&lt;p&gt;我们还是以  &lt;code&gt;员工表&lt;/code&gt;  和  &lt;code&gt;部门表&lt;/code&gt;  举例:&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724134145803.png&#34; alt=&#34;image-20210724134145803&#34; style=&#34;zoom:70%;&#34; /&gt;
+&lt;p&gt;经过分析发现，员工表属于多的一方，而部门表属于一的一方，此时我们会在员工表中添加一列（dep_id），指向于部门表的主键（id）：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724134318685.png&#34; alt=&#34;image-20210724134318685&#34; style=&#34;zoom:70%;&#34; /&gt;
+&lt;p&gt;建表语句如下：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 删除表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; tb_emp&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; tb_dept&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 部门表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; tb_dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dep_name &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	addr &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 员工表 &lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; tb_emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	name &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	age &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dep_id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+
+	&lt;span class=&#34;token comment&#34;&gt;-- 添加外键 dep_id,关联 dept 表的id主键&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; fk_emp_dept &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;dep_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; tb_dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;	
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看表结构模型图：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724140456921.png&#34; alt=&#34;image-20210724140456921&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;23-表关系多对多&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#23-表关系多对多&#34;&gt;#&lt;/a&gt; 2.3  表关系 (多对多)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;多对多&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如：商品 和 订单&lt;/li&gt;
+&lt;li&gt;一个商品对应多个订单，一个订单包含多个商品&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;实现方式&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;建立第三张中间表，中间表至少包含两个外键，分别关联两方主键&lt;/mark&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;案例&lt;/p&gt;
+&lt;p&gt;我们以  &lt;code&gt;订单表&lt;/code&gt;  和  &lt;code&gt;商品表&lt;/code&gt;  举例：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724134735939.png&#34; alt=&#34;image-20210724134735939&#34; style=&#34;zoom:70%;&#34; /&gt;
+&lt;p&gt;经过分析发现，订单表和商品表都属于多的一方，此时需要创建一个中间表，在中间表中添加订单表的外键和商品表的外键指向两张表的主键：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724135054834.png&#34; alt=&#34;image-20210724135054834&#34; style=&#34;zoom:70%;&#34; /&gt;
+&lt;p&gt;建表语句如下：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 删除表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; tb_order_goods&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; tb_order&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; tb_goods&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 订单表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; tb_order&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	payment &lt;span class=&#34;token keyword&#34;&gt;double&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	payment_type &lt;span class=&#34;token keyword&#34;&gt;TINYINT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TINYINT&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 商品表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; tb_goods&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	title &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	price &lt;span class=&#34;token keyword&#34;&gt;double&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 订单商品中间表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; tb_order_goods&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	order_id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	goods_id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	count &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 建完表后，添加外键&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;alter&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;table&lt;/span&gt; tb_order_goods &lt;span class=&#34;token keyword&#34;&gt;add&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; fk_order_id &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;order_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; tb_order&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;alter&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;table&lt;/span&gt; tb_order_goods &lt;span class=&#34;token keyword&#34;&gt;add&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; fk_goods_id &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;goods_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; tb_goods&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看表结构模型图：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724140307910.png&#34; alt=&#34;image-20210724140307910&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;24-表关系一对一&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#24-表关系一对一&#34;&gt;#&lt;/a&gt; 2.4  表关系 (一对一)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;一对一&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如：用户 和 用户详情&lt;/li&gt;
+&lt;li&gt;一对一关系多用于表拆分，将一个实体中经常使用的字段放一张表，不经常使用的字段放另一张表，用于提升查询性能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;实现方式&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;在任意一方加入外键，关联另一方主键，并且设置外键为唯一 (UNIQUE)&lt;/mark&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;案例&lt;/p&gt;
+&lt;p&gt;我们以  &lt;code&gt;用户表&lt;/code&gt;  举例：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724135346913.png&#34; alt=&#34;image-20210724135346913&#34; style=&#34;zoom:70%;&#34; /&gt;
+&lt;p&gt;而在真正使用过程中发现 id、photo、nickname、age、gender 字段比较常用，此时就可以将这张表查分成两张表。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​	&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724135649341.png&#34; alt=&#34;image-20210724135649341&#34; style=&#34;zoom:70%;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;
+&lt;p&gt;​	建表语句如下：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;create&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;table&lt;/span&gt; tb_user_desc &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	city &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	edu &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	income &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;status&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;char&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	des &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token keyword&#34;&gt;create&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;table&lt;/span&gt; tb_user &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;primary&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	photo &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	nickname &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	age &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	gender &lt;span class=&#34;token keyword&#34;&gt;char&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	desc_id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;unique&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token comment&#34;&gt;-- 添加外键&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; fk_user_desc &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;desc_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; tb_user_desc&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;	
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;​	查看表结构模型图：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724141445785.png&#34; alt=&#34;image-20210724141445785&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;h3 id=&#34;25-数据库设计案例&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#25-数据库设计案例&#34;&gt;#&lt;/a&gt; 2.5  数据库设计案例&lt;/h3&gt;
+&lt;p&gt;根据下图设计表及表和表之间的关系：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724141822204.png&#34; alt=&#34;image-20210724141822204&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;经过分析，我们分为  &lt;code&gt;专辑表&lt;/code&gt;    &lt;code&gt;曲目表&lt;/code&gt;    &lt;code&gt;短评表&lt;/code&gt;    &lt;code&gt;用户表&lt;/code&gt;    4 张表。&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724141550446.png&#34; alt=&#34;image-20210724141550446&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;一个专辑可以有多个曲目，一个曲目只能属于某一张专辑，所以专辑表和曲目表的关系是&lt;mark&gt;一对多&lt;/mark&gt;。&lt;/p&gt;
+&lt;p&gt;一个专辑可以被多个用户进行评论，一个用户可以对多个专辑进行评论，所以专辑表和用户表的关系是 &lt;mark&gt;多对多&lt;/mark&gt;。&lt;/p&gt;
+&lt;p&gt;一个用户可以发多个短评，一个短评只能是某一个人发的，所以用户表和短评表的关系是 &lt;mark&gt;一对多&lt;/mark&gt;。&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724142550839.png&#34; alt=&#34;image-20210724142550839&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;h2 id=&#34;3多表查询&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#3多表查询&#34;&gt;#&lt;/a&gt; 3，多表查询&lt;/h2&gt;
+&lt;p&gt;多表查询顾名思义就是从多张表中一次性的查询出我们想要的数据。我们通过具体的 sql 给他们演示，先准备环境&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+
+&lt;span class=&#34;token comment&#34;&gt;# 创建部门表&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+        did &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+        dname &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+	&lt;span class=&#34;token comment&#34;&gt;# 创建员工表&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+        id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;AUTO_INCREMENT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+        NAME &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+        gender &lt;span class=&#34;token keyword&#34;&gt;CHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 性别&lt;/span&gt;
+        salary &lt;span class=&#34;token keyword&#34;&gt;DOUBLE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 工资&lt;/span&gt;
+        join_date &lt;span class=&#34;token keyword&#34;&gt;DATE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 入职日期&lt;/span&gt;
+        dep_id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;dep_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 外键，关联部门表(部门表的主键)&lt;/span&gt;
+    &lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+	&lt;span class=&#34;token comment&#34;&gt;-- 添加部门数据&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; dept &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;dNAME&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;VALUES&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;研发部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;市场部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;财务部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;销售部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+	&lt;span class=&#34;token comment&#34;&gt;-- 添加员工数据&lt;/span&gt;
+	&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;NAME&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;gender&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;join_date&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;dep_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;VALUES&lt;/span&gt;
+	&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;孙悟空&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;男&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7200&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2013-02-24&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;猪八戒&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;男&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3600&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2010-12-02&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;唐僧&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;男&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;9000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2008-08-08&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;白骨精&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;女&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2015-10-07&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;蜘蛛精&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;女&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4500&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2011-03-14&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;小白龙&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;男&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2500&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2011-02-14&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;	&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行下面的多表查询语句&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 从emp和dept表中查询所有的字段数据&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724173630506.png&#34; alt=&#34;image-20210724173630506&#34; style=&#34;zoom:90%;&#34; /&gt;
+&lt;p&gt;从上面的结果我们看到有一些无效的数据，如  &lt;code&gt;孙悟空&lt;/code&gt;  这个员工属于 1 号部门，但也同时关联的 2、3、4 号部门。所以我们要通过限制员工表中的  &lt;code&gt;dep_id&lt;/code&gt;  字段的值和部门表  &lt;code&gt;did&lt;/code&gt;  字段的值相等来消除这些无效的数据，&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行后结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724174212443.png&#34; alt=&#34;image-20210724174212443&#34; style=&#34;zoom:90%;&#34; /&gt;
+&lt;p&gt;上面语句就是连接查询，那么多表查询都有哪些呢？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;连接查询&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724174717647.png&#34; alt=&#34;image-20210724174717647&#34; style=&#34;zoom:80%;&#34; /&gt; 
+&lt;ul&gt;
+&lt;li&gt;内连接查询 ：相当于查询 AB 交集数据&lt;/li&gt;
+&lt;li&gt;外连接查询
+&lt;ul&gt;
+&lt;li&gt;左外连接查询 ：相当于查询 A 表所有数据和交集部门数据&lt;/li&gt;
+&lt;li&gt;右外连接查询 ： 相当于查询 B 表所有数据和交集部分数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;子查询&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;31-内连接查询&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#31-内连接查询&#34;&gt;#&lt;/a&gt; 3.1  内连接查询&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;语法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 隐式内连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt; 字段列表 &lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt; 表&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;表&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;… &lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt; 条件&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 显示内连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt; 字段列表 &lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt; 表&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;INNER&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; 表&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; 条件&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;内连接相当于查询 A B 交集数据&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724174717647.png&#34; alt=&#34;image-20210724174717647&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;案例&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;隐式内连接&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	&lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept
+&lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行上述语句结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724175344508.png&#34; alt=&#34;image-20210724175344508&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询 emp 的 name， gender，dept 表的 dname&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt; NAME&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;gender&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dname
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept
+&lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行语句结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724175518159.png&#34; alt=&#34;image-20210724175518159&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;上面语句中使用表名指定字段所属有点麻烦，sql 也支持给表指别名，上述语句可以改进为&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	t1&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt; NAME&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	t1&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;gender&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dname
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp t1&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept t2
+&lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt;
+	t1&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;显式内连接&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;inner&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;join&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;on&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 上面语句中的inner可以省略，可以书写为如下语句&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp  &lt;span class=&#34;token keyword&#34;&gt;join&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;on&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724180103531.png&#34; alt=&#34;image-20210724180103531&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;32-外连接查询&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#32-外连接查询&#34;&gt;#&lt;/a&gt; 3.2  外连接查询&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;语法&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 左外连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt; 字段列表 &lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt; 表&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;LEFT&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;OUTER&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; 表&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; 条件&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 右外连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt; 字段列表 &lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt; 表&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;RIGHT&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;OUTER&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; 表&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; 条件&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;左外连接：相当于查询 A 表所有数据和交集部分数据&lt;/p&gt;
+&lt;p&gt;右外连接：相当于查询 B 表所有数据和交集部分数据&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724174717647.png&#34; alt=&#34;image-20210724174717647&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;案例&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;查询 emp 表所有数据和对应的部门信息（左外连接）&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;left&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;join&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;on&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行语句结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724180542757.png&#34; alt=&#34;image-20210724180542757&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;结果显示查询到了左表（emp）中所有的数据及两张表能关联的数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询 dept 表所有数据和对应的员工信息（右外连接）&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;right&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;join&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;on&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行语句结果如下：&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724180613494.png&#34; alt=&#34;image-20210724180613494&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;结果显示查询到了右表（dept）中所有的数据及两张表能关联的数据。&lt;/p&gt;
+&lt;p&gt;要查询出部门表中所有的数据，也可以通过左外连接实现，只需要将两个表的位置进行互换：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;left&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;join&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;on&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;33-子查询&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#33-子查询&#34;&gt;#&lt;/a&gt; 3.3  子查询&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;概念&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;查询中嵌套查询，称嵌套查询为子查询。&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;什么是查询中嵌套查询呢？我们通过一个例子来看：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;需求：查询工资高于猪八戒的员工信息。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;来实现这个需求，我们就可以通过二步实现，第一步：先查询出来 猪八戒的工资&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; salary &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; name &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;猪八戒&#39;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;第二步：查询工资高于猪八戒的员工信息&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; salary &lt;span class=&#34;token operator&#34;&gt;&gt;&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;3600&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;第二步中的 3600 可以通过第一步的 sql 查询出来，所以将 3600 用第一步的 sql 语句进行替换&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; salary &lt;span class=&#34;token operator&#34;&gt;&gt;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; salary &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; name &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;猪八戒&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这就是查询语句中嵌套查询语句。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;子查询根据查询结果不同，作用不同&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;子查询语句结果是单行单列，子查询语句作为条件值，使用 =  !=  &amp;gt;  &amp;lt;  等进行条件判断&lt;/li&gt;
+&lt;li&gt;子查询语句结果是多行单列，子查询语句作为条件值，使用 in 等关键字进行条件判断&lt;/li&gt;
+&lt;li&gt;子查询语句结果是多行多列，子查询语句作为虚拟表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;案例&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;查询 ‘财务部’ 和 ‘市场部’ 所有的员工信息&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 查询 &#39;财务部&#39; 或者 &#39;市场部&#39; 所有的员工的部门did&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; did &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; dname &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;财务部&#39;&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;or&lt;/span&gt; dname &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;市场部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; dep_id &lt;span class=&#34;token operator&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; did &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; dname &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;财务部&#39;&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;or&lt;/span&gt; dname &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;市场部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询入职日期是 ‘2011-11-11’ 之后的员工信息和部门信息&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 查询入职日期是 &#39;2011-11-11&#39; 之后的员工信息&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; join_date &lt;span class=&#34;token operator&#34;&gt;&gt;&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;2011-11-11&#39;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 将上面语句的结果作为虚拟表和dept表进行内连接查询&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; join_date &lt;span class=&#34;token operator&#34;&gt;&gt;&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;2011-11-11&#39;&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; t1&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; t1&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dep_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;34-案例&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#34-案例&#34;&gt;#&lt;/a&gt; 3.4  案例&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;环境准备：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; job&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; salarygrade&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 部门表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; dept &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+  did &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 部门id&lt;/span&gt;
+  dname &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 部门名称&lt;/span&gt;
+  loc &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 部门所在地&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 职务表，职务名称，职务描述&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; job &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+  id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+  jname &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+  description &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 员工表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; emp &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+  id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 员工id&lt;/span&gt;
+  ename &lt;span class=&#34;token keyword&#34;&gt;VARCHAR&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 员工姓名&lt;/span&gt;
+  job_id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 职务id&lt;/span&gt;
+  mgr &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 上级领导&lt;/span&gt;
+  joindate &lt;span class=&#34;token keyword&#34;&gt;DATE&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 入职日期&lt;/span&gt;
+  salary &lt;span class=&#34;token keyword&#34;&gt;DECIMAL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 工资&lt;/span&gt;
+  bonus &lt;span class=&#34;token keyword&#34;&gt;DECIMAL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 奖金&lt;/span&gt;
+  dept_id &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 所在部门编号&lt;/span&gt;
+  &lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; emp_jobid_ref_job_id_fk &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;job_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; job &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;token keyword&#34;&gt;CONSTRAINT&lt;/span&gt; emp_deptid_ref_dept_id_fk &lt;span class=&#34;token keyword&#34;&gt;FOREIGN&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;dept_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;REFERENCES&lt;/span&gt; dept &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 工资等级表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; salarygrade &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+  grade &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;   &lt;span class=&#34;token comment&#34;&gt;-- 级别&lt;/span&gt;
+  losalary &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 最低工资&lt;/span&gt;
+  hisalary &lt;span class=&#34;token keyword&#34;&gt;INT&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;-- 最高工资&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+				
+&lt;span class=&#34;token comment&#34;&gt;-- 添加4个部门&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;did&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;dname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;loc&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;VALUES&lt;/span&gt; 
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;教研部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;北京&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;学工部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;上海&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;销售部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;广州&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;40&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;财务部&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;深圳&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 添加4个职务&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; job &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; jname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; description&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;VALUES&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;董事长&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;管理整个公司，接单&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;经理&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;管理部门员工&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;销售员&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;向客人推销产品&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;文员&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;使用办公软件&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+
+&lt;span class=&#34;token comment&#34;&gt;-- 添加员工&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;job_id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;mgr&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;joindate&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;bonus&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;dept_id&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;VALUES&lt;/span&gt; 
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1001&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;孙悟空&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1004&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2000-12-17&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;8000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1002&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;卢俊义&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1006&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-02-20&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;16000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;3000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1003&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;林冲&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1006&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-02-22&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;12500.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;5000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1004&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;唐僧&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1009&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-04-02&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;29750.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1005&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;李逵&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1006&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-09-28&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;12500.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;14000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1006&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;宋江&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1009&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-05-01&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;28500.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1007&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;刘备&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1009&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-09-01&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;24500.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1008&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;猪八戒&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1004&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2007-04-19&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;30000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1009&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;罗贯中&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-11-17&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;50000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1010&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;吴用&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1006&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-09-08&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;15000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;0.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1011&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;沙僧&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1004&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2007-05-23&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;11000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1012&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;李逵&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1006&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-12-03&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;9500.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1013&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;小白龙&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1004&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2001-12-03&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;30000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1014&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;关羽&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1007&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;2002-01-23&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;13000.00&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token boolean&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+
+&lt;span class=&#34;token comment&#34;&gt;-- 添加5个工资等级&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; salarygrade&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;grade&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;losalary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;hisalary&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;VALUES&lt;/span&gt; 
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;7000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;12000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;12010&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;14000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;14010&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;20010&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;30010&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;99990&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;需求&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;查询所有员工信息。查询员工编号，员工姓名，工资，职务名称，职务描述&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;/*
+	分析：
+		1. 员工编号，员工姓名，工资 信息在emp 员工表中
+		2. 职务名称，职务描述 信息在 job 职务表中
+		3. job 职务表 和 emp 员工表 是 一对多的关系 emp.job_id = job.id
+*/&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 方式一 ：隐式内连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;jname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;description
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job
+&lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;job_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 方式二 ：显式内连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;jname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;description
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp
+&lt;span class=&#34;token keyword&#34;&gt;INNER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; job &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;job_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询员工编号，员工姓名，工资，职务名称，职务描述，部门名称，部门位置&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;/*
+	分析：
+		1. 员工编号，员工姓名，工资 信息在emp 员工表中
+		2. 职务名称，职务描述 信息在 job 职务表中
+		3. job 职务表 和 emp 员工表 是 一对多的关系 emp.job_id = job.id
+
+		4. 部门名称，部门位置 来自于 部门表 dept
+		5. dept 和 emp 一对多关系 dept.id = emp.dept_id
+*/&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 方式一 ：隐式内连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;jname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;description&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;loc
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept
+&lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;job_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id
+	&lt;span class=&#34;token operator&#34;&gt;and&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dept_id
+&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 方式二 ：显式内连接&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;jname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;description&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;loc
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp
+&lt;span class=&#34;token keyword&#34;&gt;INNER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; job &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;job_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id
+&lt;span class=&#34;token keyword&#34;&gt;INNER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dept_id&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询员工姓名，工资，工资等级&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;/*
+	分析：
+		1. 员工姓名，工资 信息在emp 员工表中
+		2. 工资等级 信息在 salarygrade 工资等级表中
+		3. emp.salary &gt;= salarygrade.losalary  and emp.salary &amp;lt;= salarygrade.hisalary
+*/&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	salarygrade t2
+&lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary &lt;span class=&#34;token operator&#34;&gt;&gt;=&lt;/span&gt; t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;losalary
+&lt;span class=&#34;token operator&#34;&gt;AND&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary &lt;span class=&#34;token operator&#34;&gt;&amp;lt;=&lt;/span&gt; t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;hisalary&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询员工姓名，工资，职务名称，职务描述，部门名称，部门位置，工资等级&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;/*
+	分析：
+		1. 员工编号，员工姓名，工资 信息在emp 员工表中
+		2. 职务名称，职务描述 信息在 job 职务表中
+		3. job 职务表 和 emp 员工表 是 一对多的关系 emp.job_id = job.id
+
+		4. 部门名称，部门位置 来自于 部门表 dept
+		5. dept 和 emp 一对多关系 dept.id = emp.dept_id
+		6. 工资等级 信息在 salarygrade 工资等级表中
+		7. emp.salary &gt;= salarygrade.losalary  and emp.salary &amp;lt;= salarygrade.hisalary
+*/&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;ename&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;jname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;description&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;loc&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;grade
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	emp
+&lt;span class=&#34;token keyword&#34;&gt;INNER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; job &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;job_id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; job&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id
+&lt;span class=&#34;token keyword&#34;&gt;INNER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; dept &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dept_id
+&lt;span class=&#34;token keyword&#34;&gt;INNER&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;JOIN&lt;/span&gt; salarygrade t2 &lt;span class=&#34;token keyword&#34;&gt;ON&lt;/span&gt; emp&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;salary &lt;span class=&#34;token operator&#34;&gt;BETWEEN&lt;/span&gt; t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;losalary &lt;span class=&#34;token operator&#34;&gt;and&lt;/span&gt; t2&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;hisalary&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;查询出部门编号、部门名称、部门位置、部门人数&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;/*
+	分析：
+		1. 部门编号、部门名称、部门位置 来自于部门 dept 表
+		2. 部门人数: 在emp表中 按照dept_id 进行分组，然后count(*)统计数量
+		3. 使用子查询，让部门表和分组后的表进行内连接
+*/&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 根据部门id分组查询每一个部门id和员工数&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;select&lt;/span&gt; dept_id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;from&lt;/span&gt; emp &lt;span class=&#34;token keyword&#34;&gt;group&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;by&lt;/span&gt; dept_id&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dname&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;loc&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	t1&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;count
+&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+		&lt;span class=&#34;token keyword&#34;&gt;SELECT&lt;/span&gt;
+			dept_id&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+			&lt;span class=&#34;token function&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; count
+		&lt;span class=&#34;token keyword&#34;&gt;FROM&lt;/span&gt;
+			emp
+		&lt;span class=&#34;token keyword&#34;&gt;GROUP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;BY&lt;/span&gt;
+			dept_id
+	&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; t1
+&lt;span class=&#34;token keyword&#34;&gt;WHERE&lt;/span&gt;
+	dept&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;id &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; t1&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;dept_id&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;4事务&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#4事务&#34;&gt;#&lt;/a&gt; 4，事务&lt;/h2&gt;
+&lt;h3 id=&#34;41-概述&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#41-概述&#34;&gt;#&lt;/a&gt; 4.1  概述&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;数据库的事务（Transaction）是一种机制、一个操作序列，包含了&lt;mark&gt;一组数据库操作命令&lt;/mark&gt;。&lt;/p&gt;
+&lt;p&gt;事务把所有的命令作为一个整体一起向系统提交或撤销操作请求，即这一组数据库命令&lt;mark&gt;要么同时成功，要么同时失败&lt;/mark&gt;。&lt;/p&gt;
+&lt;p&gt;事务是一个不可分割的工作逻辑单元。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这些概念不好理解，接下来举例说明，如下图有一张表&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724224955876.png&#34; alt=&#34;image-20210724224955876&#34; style=&#34;zoom:80%;&#34; /&gt;
+&lt;p&gt;张三和李四账户中各有 100 块钱，现李四需要转换 500 块钱给张三，具体的转账操作为&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一步：查询李四账户余额&lt;/li&gt;
+&lt;li&gt;第二步：从李四账户金额 -500&lt;/li&gt;
+&lt;li&gt;第三步：给张三账户金额 +500&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在假设在转账过程中第二步完成后出现了异常第三步没有执行，就会造成李四账户金额少了 500，而张三金额并没有多 500；这样的系统是有问题的。如果解决呢？使用事务可以解决上述问题&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724225537533.png&#34; alt=&#34;image-20210724225537533&#34; style=&#34;zoom:70%;&#34; /&gt;
+&lt;p&gt;从上图可以看到在转账前开启事务，如果出现了异常回滚事务，三步正常执行就提交事务，这样就可以完美解决问题。&lt;/p&gt;
+&lt;h3 id=&#34;42-语法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#42-语法&#34;&gt;#&lt;/a&gt; 4.2  语法&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;开启事务&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;START&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TRANSACTION&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+或者  
+&lt;span class=&#34;token keyword&#34;&gt;BEGIN&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;提交事务&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;commit&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;回滚事务&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;rollback&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;43-代码验证&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#43-代码验证&#34;&gt;#&lt;/a&gt; 4.3  代码验证&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;环境准备&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;DROP&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;IF&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;EXISTS&lt;/span&gt; account&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 创建账户表&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;TABLE&lt;/span&gt; account&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;
+	id &lt;span class=&#34;token keyword&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;PRIMARY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;KEY&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;auto_increment&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	name &lt;span class=&#34;token keyword&#34;&gt;varchar&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;
+	money &lt;span class=&#34;token keyword&#34;&gt;double&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 添加数据&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;INSERT&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;INTO&lt;/span&gt; account&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;name&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;money&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;values&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;张三&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#39;李四&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;不加事务演示问题&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 转账操作&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 1. 查询李四账户金额是否大于500&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 2. 李四账户 -500&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;UPDATE&lt;/span&gt; account &lt;span class=&#34;token keyword&#34;&gt;set&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;500&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; name &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;李四&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+出现异常了&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 此处不是注释，在整体执行时会出问题，后面的sql则不执行&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 3. 张三账户 +500&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;UPDATE&lt;/span&gt; account &lt;span class=&#34;token keyword&#34;&gt;set&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;500&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; name &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;张三&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;整体执行结果肯定会出问题，我们查询账户表中数据，发现李四账户少了 500。&lt;/p&gt;
+&lt;img src=&#34;F:\blog\xcblog\source\_posts\assets\image-20210724230250263.png&#34; alt=&#34;image-20210724230250263&#34; style=&#34;zoom:90%;&#34; /&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;添加事务 sql 如下：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token comment&#34;&gt;-- 开启事务&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;BEGIN&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 转账操作&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 1. 查询李四账户金额是否大于500&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 2. 李四账户 -500&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;UPDATE&lt;/span&gt; account &lt;span class=&#34;token keyword&#34;&gt;set&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;500&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; name &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;李四&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+出现异常了&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;  &lt;span class=&#34;token comment&#34;&gt;-- 此处不是注释，在整体执行时会出问题，后面的sql则不执行&lt;/span&gt;
+&lt;span class=&#34;token comment&#34;&gt;-- 3. 张三账户 +500&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;UPDATE&lt;/span&gt; account &lt;span class=&#34;token keyword&#34;&gt;set&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; money &lt;span class=&#34;token operator&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;500&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;where&lt;/span&gt; name &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token string&#34;&gt;&#39;张三&#39;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 提交事务&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;COMMIT&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;
+
+&lt;span class=&#34;token comment&#34;&gt;-- 回滚事务&lt;/span&gt;
+&lt;span class=&#34;token keyword&#34;&gt;ROLLBACK&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面 sql 中的执行成功进选择执行提交事务，而出现问题则执行回滚事务的语句。以后我们肯定不可能这样操作，而是在 java 中进行操作，在 java 中可以抓取异常，没出现异常提交事务，出现异常回滚事务。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;44-事务的四大特征&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#44-事务的四大特征&#34;&gt;#&lt;/a&gt; 4.4  事务的四大特征&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;原子性（Atomicity）: 事务是不可分割的最小操作单位，要么同时成功，要么同时失败&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;一致性（Consistency） : 事务完成时，必须使所有的数据都保持一致状态&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;隔离性（Isolation） : 多个事务之间，操作的可见性&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;持久性（Durability） : 事务一旦提交或回滚，它对数据库中的数据的改变就是永久的&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;mark&gt;说明：&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;mysql 中事务是自动提交的。&lt;/p&gt;
+&lt;p&gt;也就是说我们不添加事务执行 sql 语句，语句执行完毕会自动的提交事务。&lt;/p&gt;
+&lt;p&gt;可以通过下面语句查询默认提交方式：&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-java&#34; data-language=&#34;java&#34;&gt;&lt;code class=&#34;language-java&#34;&gt;&lt;span class=&#34;token constant&#34;&gt;SELECT&lt;/span&gt; @&lt;span class=&#34;token annotation punctuation&#34;&gt;@autocommit&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查询到的结果是 1 则表示自动提交，结果是 0 表示手动提交。当然也可以通过下面语句修改提交方式&lt;/p&gt;
+&lt;pre class=&#34;line-numbers language-sql&#34; data-language=&#34;sql&#34;&gt;&lt;code class=&#34;language-sql&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;set&lt;/span&gt; @&lt;span class=&#34;token variable&#34;&gt;@autocommit&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://imxiaocheng.github.io/2023/05/09/hello-world/</guid>
+            <title>Hello World</title>
+            <link>https://imxiaocheng.github.io/2023/05/09/hello-world/</link>
+            <pubDate>Tue, 09 May 2023 09:10:07 +0800</pubDate>
+            <description><![CDATA[ &lt;p&gt;Welcome to &lt;a href=&#34;https://hexo.io/&#34;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&#34;https://hexo.io/docs/&#34;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&#34;https://hexo.io/docs/troubleshooting.html&#34;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&#34;https://github.com/hexojs/hexo/issues&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;quick-start&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#quick-start&#34;&gt;#&lt;/a&gt; Quick Start&lt;/h2&gt;
+&lt;h3 id=&#34;create-a-new-post&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#create-a-new-post&#34;&gt;#&lt;/a&gt; Create a new post&lt;/h3&gt;
+&lt;pre class=&#34;line-numbers language-bash&#34; data-language=&#34;bash&#34;&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hexo new &lt;span class=&#34;token string&#34;&gt;&#34;My New Post&#34;&lt;/span&gt;&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&#34;https://hexo.io/docs/writing.html&#34;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;run-server&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#run-server&#34;&gt;#&lt;/a&gt; Run server&lt;/h3&gt;
+&lt;pre class=&#34;line-numbers language-bash&#34; data-language=&#34;bash&#34;&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hexo server&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&#34;https://hexo.io/docs/server.html&#34;&gt;Server&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;generate-static-files&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#generate-static-files&#34;&gt;#&lt;/a&gt; Generate static files&lt;/h3&gt;
+&lt;pre class=&#34;line-numbers language-bash&#34; data-language=&#34;bash&#34;&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hexo generate&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&#34;https://hexo.io/docs/generating.html&#34;&gt;Generating&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;deploy-to-remote-sites&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#deploy-to-remote-sites&#34;&gt;#&lt;/a&gt; Deploy to remote sites&lt;/h3&gt;
+&lt;pre class=&#34;line-numbers language-bash&#34; data-language=&#34;bash&#34;&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hexo deploy&lt;span aria-hidden=&#34;true&#34; class=&#34;line-numbers-rows&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More info: &lt;a href=&#34;https://hexo.io/docs/one-command-deployment.html&#34;&gt;Deployment&lt;/a&gt;&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

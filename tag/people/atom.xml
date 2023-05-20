@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://imxiaocheng.github.io</id>
+    <title>小城博客 • Posts by &#34;people&#34; tag</title>
+    <link href="https://imxiaocheng.github.io" />
+    <updated>2023-05-20T11:05:02.000Z</updated>
+    <category term="people" />
+    <category term="注释" />
+    <entry>
+        <id>https://imxiaocheng.github.io/2023/05/20/pagluyaowen/</id>
+        <title>luyaowen</title>
+        <link rel="alternate" href="https://imxiaocheng.github.io/2023/05/20/pagluyaowen/"/>
+        <content type="html">&lt;h1 id=&#34;这是耀文兄的个人辉煌生涯&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#这是耀文兄的个人辉煌生涯&#34;&gt;#&lt;/a&gt; 这是耀文兄的个人辉煌生涯&lt;/h1&gt;
+&lt;p&gt;6666&lt;/p&gt;
+</content>
+        <category term="people" />
+        <updated>2023-05-20T11:05:02.000Z</updated>
+    </entry>
+</feed>
